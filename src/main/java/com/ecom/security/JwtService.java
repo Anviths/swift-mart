@@ -13,7 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +31,14 @@ public class JwtService {
     public String generateToken(User user) {
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("role", user.getRoles().stream().map(Role::name).collect(Collectors.toList()));
+        claims.put("role", user.getRoles().stream().map(Role::name).toList());
 
         Date now = new Date();
         Date exp = new Date(now.getTime() + expiryTime);
 
         return Jwts.builder()
-                .setSubject(user.getEmail())
                 .setClaims(claims)
+                .setSubject(user.getEmail())
                 .setIssuedAt(now)
                 .setExpiration(exp)
                 .signWith(siningKey(), SignatureAlgorithm.HS256)

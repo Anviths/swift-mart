@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 @Builder
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 
-public class User implements UserDetails, CredentialsContainer {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -56,10 +56,7 @@ public class User implements UserDetails, CredentialsContainer {
     @Builder.Default
     private Set<Role> roles = EnumSet.noneOf(Role.class);
 
-    @Override
-    public void eraseCredentials() {
-        this.password = null;
-    }
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
